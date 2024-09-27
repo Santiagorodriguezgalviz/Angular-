@@ -1,0 +1,236 @@
+/* Fondo verde con degradado */
+.bg-green {
+    background: linear-gradient(135deg, #38f2a4, #96ff82);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Texto en verde */
+.text-green {
+    color: #006c3c;
+    text-align: center;
+}
+
+/* Estilo para la imagen de fondo */
+.bg-image {
+    background-image: url('../../assets/sveta-fedarava-tI_Odb7ZU6M-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+}
+
+.bg-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    
+}
+
+.login-container {
+    position: relative;
+    z-index: 2;
+    background-color: rgb(255, 255, 255);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 30px rgba(70, 197, 20, 0.3);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.login-container:hover {
+    box-shadow: 0px 12px 40px rgba(79, 210, 27, 0.3);
+}
+
+app-svgs {
+    margin-bottom: 20px;
+    transform: translateY(-20px);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 150px;
+}
+
+.btn-back {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.btn-back:hover {
+    background-color: rgba(117, 202, 83, 0.3);
+    color: #f8f9fa;
+}
+
+.form-check-label {
+    color: #f8f9fa;
+}
+
+/* Estilo para el ícono del ojo */
+/* Estilo para el ícono del ojo */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 75%; /* Ajuste la posición más abajo */
+    transform: translateY(-55%); /* Centrar el ojo */
+    cursor: pointer;
+    color: #27282a;
+}
+
+.toggle-password:hover {
+    color: #44E32A;
+}
+
+
+@media (max-width: 768px) {
+    .login-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    app-svgs {
+        max-width: 100px;
+    }
+
+    .btn-back {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .bg-green {
+        padding: 10px;
+    }
+
+    app-svgs {
+        max-width: 80px;
+    }
+
+    .btn-back {
+        font-size: 11px;
+    }
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, #4ca87d, #49a479); /* Gradiente de tonos naranja cálido */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    padding: 12px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    background: linear-gradient(135deg, #52c87f, #428a71); /* Gradiente más oscuro en hover */
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px); /* Efecto de levitación en hover */
+}
+
+/* Ajustes para el botón al hacer clic */
+.btn-custom:active {
+    transform: translateY(0); /* Devuelve el botón a su posición normal */
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cambiar solo el borde a verde cuando el campo está enfocado */
+.form-control:focus {
+    border-color: #00ff95; /* Color del borde verde */
+    box-shadow: 0 0 5px rgba(0, 255, 149, 0.799); /* Sombra suave verde */
+}
+
+/* Cambiar solo el borde a verde cuando el campo contiene datos */
+.form-control.ng-dirty {
+    border-color: #00ff95; /* Color del borde verde */
+}
+/* Estilo para el botón de confirmación */
+/* Estilo personalizado para el popup */
+.custom-popup {
+    background: #f5f7fa; /* Fondo más suave y elegante */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+    transition: transform 0.4s ease-in-out; /* Transición suave en la animación */
+  }
+  
+  .custom-popup:hover {
+    transform: scale(1.03); /* Ligero zoom al pasar el cursor */
+  }
+  
+  /* Estilo personalizado para el título */
+  .custom-title {
+    color: #333;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Sombra sutil en el texto */
+  }
+  
+  /* Estilo personalizado para el contenido HTML */
+  .custom-html {
+    color: #555;
+    font-size: 1.1rem;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Estilo para el botón de confirmación */
+  .custom-confirm-btn {
+    background-color: #55d573 !important;
+    color: white !important;
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 50px; /* Bordes completamente redondeados */
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 8px 20px rgba(85, 213, 115, 0.5); /* Sombra verde suave */
+  }
+  
+  .custom-confirm-btn:hover {
+    background-color: #49c267 !important; /* Color más oscuro al hacer hover */
+    transform: scale(1.1); /* Efecto de aumento */
+  }
+  
+  /* Estilo para el botón de cancelar */
+  .custom-cancel-btn {
+    background-color: #ff0000 !important;
+    color: white !important;
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 50px; /* Bordes completamente redondeados */
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.5); /* Sombra roja suave */
+  }
+  
+  .custom-cancel-btn:hover {
+    background-color: #e60000 !important; /* Color más oscuro en hover */
+    transform: scale(1.1); /* Efecto de aumento */
+  }
+  
+  

@@ -1,0 +1,97 @@
+<h2 class="title">Lista de calificaciones</h2>
+<!-- Button to open modal -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar Calificación <i class="fas fa-plus"></i></button>
+
+<!-- Modal for creating/editing calification -->
+<div id="calificationModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>{{ calification.id === 0 ? 'Agregar Calificación' : 'Editar Calificación' }}</h2>
+    <hr class="modal-border">
+    <form #calificationForm="ngForm" (ngSubmit)="onSubmit(calificationForm)">
+      <input type="hidden" name="id" [(ngModel)]="calification.id">
+
+      <div class="row">
+        <div class="col">
+          <label for="observation">Observación:</label>
+          <input type="text" class="form-control input-field" id="observation" name="observation" [(ngModel)]="calification.observation" required>
+        </div>
+
+        <div class="col">
+          <label for="qualification_criteria">Criterio de Calificación:</label>
+          <input type="number" class="form-control input-field" id="qualification_criteria" name="qualification_criteria" [(ngModel)]="calification.qualification_criteria" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="assesmentCriteriaId">Criterio de Evaluación:</label>
+          <input type="text" class="form-control input-field" id="assesmentCriteriaId" name="assesmentCriteriaId"
+            [ngbTypeahead]="searchAssessmentCriteria"
+            [inputFormatter]="formatAssessmentCriteria"
+            [resultFormatter]="formatAssessmentCriteria"
+            (selectItem)="onAssessmentCriteriaSelect($event)"
+            [ngModel]="getAssessmentCriteriaName(calification.assesmentCriteriaId)"
+            required>
+        </div>
+
+        <div class="col">
+          <label for="checklistId">Lista de Verificación:</label>
+          <input type="text" class="form-control input-field" id="checklistId" name="checklistId"
+            [ngbTypeahead]="searchChecklists"
+            [inputFormatter]="formatChecklist"
+            [resultFormatter]="formatChecklist"
+            (selectItem)="onChecklistSelect($event)"
+            [ngModel]="getChecklistName(calification.checklistId)"
+            required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="state">Estado:</label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="state" name="state" [(ngModel)]="calification.state">
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Table of califications -->
+<table *ngIf="califications.length > 0" class="table">
+  <thead>
+    <tr>
+      <th>Observación</th>
+      <th>Criterio de Calificación</th>
+      <th>Criterio de Evaluación</th>
+      <th>Lista de Verificación</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let calification of califications">
+      <td>{{ calification.observation }}</td>
+      <td>{{ calification.qualification_criteria }}</td>
+      <td>{{ getAssessmentCriteriaName(calification.assessmentCriteriaId) }}</td>
+      <td>{{ getChecklistName(calification.checklistId) }}</td>
+      <td>{{ calification.state ? 'Activo' : 'Inactivo' }}</td>
+      <td>
+        <button class="btn btn-icon edit" (click)="editCalification(calification)" title="Editar">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn btn-icon delete" (click)="deleteCalification(calification.id)" title="Eliminar">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p *ngIf="califications.length === 0">No se encontraron calificaciones.</p>

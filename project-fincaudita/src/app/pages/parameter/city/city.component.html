@@ -1,0 +1,98 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de Ciudades</h2>
+
+<!-- Botón a la derecha -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nueva <i class="fas fa-plus"></i></button>
+
+<div id="cityModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ city.id === 0 ? 'Agregar Ciudad' : 'Editar Ciudad' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #cityForm="ngForm" (ngSubmit)="onSubmit(cityForm)">
+            <input type="hidden" name="id" [(ngModel)]="city.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Name">Nombre de la ciudad:</label>
+                    <input type="text" class="form-control input-field" id="Name" name="Name" [(ngModel)]="city.name" required>
+                </div>
+
+                <div class="col">
+                    <label for="Description">Descripción:</label>
+                    <input type="text" class="form-control input-field" id="Description" name="Description" [(ngModel)]="city.description">
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="Country">Departamento:</label>
+                    <input type="text" class="form-control input-field" id="Country" name="Country" 
+                        [ngbTypeahead]="searchdepartaments" 
+                        [inputFormatter]="formatdepartament" 
+                        [resultFormatter]="formatdepartament" 
+                        (selectItem)="ondepartamentSelect($event)"
+                        [ngModel]="city.departamentId ? getdepartamentName(city.departamentId) : ''" 
+                        required>
+                </div>
+
+                <div class="col">
+                    <label for="Code">Código:</label>
+                    <input type="text" class="form-control input-field" id="Code" name="Code" [(ngModel)]="city.code" required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <label for="State">Estado:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="State" name="State"
+                        [(ngModel)]="city.state">
+                    </div>
+                </div>
+            </div>
+            <br>
+            
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Table of cities -->
+<table *ngIf="cities.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Departamento</th>
+            <th>Código</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let city of cities">
+            <td>{{ city.name }}</td>
+            <td>{{ city.description }}</td>
+            <td>{{ getdepartamentName(city.departamentId) }}</td>
+            <td>{{ city.code }}</td>
+            <td>{{ city.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editCity(city)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteCity(city.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p *ngIf="cities.length === 0">No se encontraron cities.</p>

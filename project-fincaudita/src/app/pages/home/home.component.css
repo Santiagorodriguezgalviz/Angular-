@@ -1,0 +1,45 @@
+.main-content {
+    margin-left: 200px; /* Igual al ancho del navbar */
+    padding: 20px;
+  }
+  
+  .custom-card {
+    position: relative;
+    background-color: transparent; /* Hacer la card transparente */
+    border: none; /* Sin borde */
+    background-image: url('../../assets/crispin-jones-sweDAVjbU3Q-unsplash.jpg'); /* Ruta de la imagen */
+    background-size: cover; /* Ajustar la imagen para cubrir la card */
+    background-position: center; /* Centrar la imagen */
+    color: white; /* Texto en color blanco */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transición suave al hacer hover */
+    border-radius: 15px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre la card */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+    min-height: 300px; /* Altura mínima de la card */
+  }
+  
+  .custom-card:hover {
+    transform: scale(1.02); /* Escala más sutil al hacer hover */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Aumentar la sombra al hacer hover */
+  }
+  
+  .custom-card .card-body {
+    padding: 20px; /* Espaciado interno */
+    border-radius: 15px; /* Bordes redondeados internos */
+    background: rgba(0, 0, 0, 0.6); /* Fondo oscuro con opacidad para mejorar la legibilidad */
+  }
+  
+  .card-title {
+    font-weight: bold; /* Negrita para el título */
+    font-size: 1.5rem; /* Tamaño de fuente más grande para el título */
+  }
+  
+  .card-text {
+    font-size: 1rem; /* Tamaño de fuente más grande para el texto */
+    line-height: 1.5; /* Espaciado entre líneas */
+  }
+  
+  .card-text::first-line {
+    font-weight: bold; /* Negrita para la primera línea del texto */
+  }
+  

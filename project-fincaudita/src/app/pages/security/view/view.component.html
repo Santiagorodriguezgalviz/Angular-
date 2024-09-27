@@ -1,0 +1,103 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de Vistas</h2>
+
+<!-- Botón a la derecha -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+
+<div id="moduloModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ view.id === 0 ? 'Agregar Vista' : 'Editar Vista' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #moduloForm="ngForm" (ngSubmit)="onSubmit(moduloForm)">
+            <input type="hidden" name="id" [(ngModel)]="view.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Name">Nombre del view:</label>
+                    <input type="text" class="form-control input-field" id="Name" name="Name" [(ngModel)]="view.name" required>
+                </div>
+
+                <div class="col">
+                    <label for="Description">Descripción:</label>
+                    <input type="text" class="form-control input-field" id="Description" name="Description"
+                        [(ngModel)]="view.description" required>
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="Route">Route:</label>
+                    <input type="text" class="form-control input-field" id="Route" name="Route" [(ngModel)]="view.route" required>
+                </div>
+
+                <div class="col">
+                    <label for="ModuloId">Módulo:</label>
+                    <input type="text" class="form-control input-field" id="ModuloId" name="ModuloId" 
+                        [ngbTypeahead]="searchModulos" 
+                        [inputFormatter]="formatModulo" 
+                        [resultFormatter]="formatModulo" 
+                        (selectItem)="onModuloSelect($event)"
+                        [ngModel]="view.moduloId ? getModuloName(view.moduloId) : ''" 
+                        required>
+                </div>
+            </div>
+            <br>
+
+
+            <div class="row">
+                <div class="col">
+                    <label for="State">Estado:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="State" name="State"
+                            [(ngModel)]="view.state">
+                    </div>
+
+
+                </div>
+            </div>
+            <br>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Table of modules -->
+<table *ngIf="views.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Route</th>
+            <th>Modulo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let view of views">
+            <td>{{ view.name }}</td>
+            <td>{{ view.description }}</td>
+            <td>{{ view.route }}</td>
+            <td>{{ getModuloName(view.moduloId) }}</td>
+            <td>{{ view.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editView(view)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteView(view.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p *ngIf="views.length === 0">No se encontraron views.</p>

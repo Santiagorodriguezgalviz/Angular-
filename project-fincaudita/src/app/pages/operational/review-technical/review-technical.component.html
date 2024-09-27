@@ -1,0 +1,134 @@
+<div class="container">
+    <h2 class="title">Informe revisión técnica</h2>
+
+    <!-- Botón para abrir el modal -->
+    <button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+
+    <!-- Modal -->
+    <div id="RevisiónModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+        <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>{{ isEditMode ? 'Editar Informe' : 'Agregar Informe' }}</h2>
+
+            <hr class="modal-border">
+
+            <form #technicalReviewForm="ngForm" (ngSubmit)="onSubmit(technicalReviewForm)">
+                <input type="hidden" name="id" [(ngModel)]="review.id">
+
+                <div class="row">
+                    <div class="col">
+                        <label for="date_review">Fecha de visita:</label>
+                        <input type="date" id="date_review" name="date_review" class="form-control input-field" [(ngModel)]="review.date_review" required>
+                    </div>
+
+                    <div class="col">
+                        <label for="technician">Nombre del técnico:</label>
+                        <input type="text" id="technician" name="technician" class="form-control input-field" [(ngModel)]="review.technician" required>
+                    </div>
+
+                    <div class="col">
+                        <label for="state">Estado:</label>
+                        <select id="state" name="state" class="form-control input-field" [(ngModel)]="review.state" required>
+                            <option value="0">Seleccione</option>
+                            <option value="1">Pendiente</option>
+                            <option value="2">Completado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="farm">Nombre de la finca:</label>
+                        <input type="text" id="farm" name="farm" class="form-control input-field" [(ngModel)]="review.farm" required>
+                    </div>
+
+                    <div class="col">
+                        <label for="crop_code">Nombre del cultivo:</label>
+                        <input type="text" id="crop_code" name="crop_code" class="form-control input-field" [(ngModel)]="review.crop_code" required>
+                    </div>
+
+                    <div class="col">
+                        <label for="producer">Nombre del productor:</label>
+                        <input type="text" id="producer" name="producer" class="form-control input-field" [(ngModel)]="review.producer" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="observations">Observaciones:</label>
+                        <textarea id="observations" name="observations" class="form-control input-field" rows="3" [(ngModel)]="review.observations"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="evidence">Subir evidencia:</label>
+                        <input type="file" id="evidence" name="evidence" class="form-control input-field" (change)="onFileChange($event)">
+                    </div>
+                </div>
+
+                <!-- Lista de chequeo -->
+                <div class="row">
+                    <div class="col">
+                        <h3>Lista de chequeo</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Puntos a verificar</th>
+                                    <th>Rango</th>
+                                    <th>Calificación</th>
+                                    <th>Observaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let checklist of review.checklists.qualifications; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ checklist.observation }}</td>
+                                    <td>{{ checklist.qualification_criteria }}</td>
+                                    <td><input type="number" class="form-control" [(ngModel)]="checklist.calification"></td>
+                                    <td><input type="text" class="form-control" [(ngModel)]="checklist.observations"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de informes -->
+    <table *ngIf="reviews.length > 0" class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Técnico</th>
+                <th>Estado</th>
+                <th>Finca</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let review of reviews">
+                <td>{{ review.date_review }}</td>
+                <td>{{ review.technician }}</td>
+                <td>{{ review.state === 1 ? 'Pendiente' : 'Completado' }}</td>
+                <td>{{ review.farm }}</td>
+                <td>
+                    <button class="btn-icon edit" (click)="editReview(review)" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon delete" (click)="deleteReview(review.id)" title="Eliminar">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p *ngIf="reviews.length === 0">No se encontraron informes.</p>
+</div>

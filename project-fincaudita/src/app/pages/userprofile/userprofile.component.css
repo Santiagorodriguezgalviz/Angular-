@@ -1,0 +1,122 @@
+/* Contenedor Principal */
+.profile-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #e7fff0;
+    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Botón para regresar */
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .back-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #44E32A;
+  }
+  
+  /* Imagen de Perfil */
+  .profile-image {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  .change-photo-text {
+    color: #050505;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  /* Datos del Usuario */
+  .user-data {
+    margin-top: 20px;
+    text-align: left;
+  }
+  
+  .user-data h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .user-data label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 0.9rem;
+  }
+  
+  .user-data input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  /* Botón para guardar cambios */
+  .save-btn {
+    background-color: #44E32A;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 75%; /* Ajuste la posición más abajo */
+    transform: translateY(-55%); /* Centrar el ojo */
+    cursor: pointer;
+    color: #27282a;
+}
+
+.toggle-password:hover {
+    color: #44E32A;
+}
+
+.input-field {
+  transition: background-color 0.3s ease; /* Transición suave */
+}
+
+/* Estilo cuando el campo de entrada está en foco */
+.input-field:focus {
+  border: 1px solid #44E32A !important; /* Color de borde verde */
+  outline: none !important; /* Eliminar el contorno por defecto */
+}
+
+/* Eliminar el efecto de enfoque predeterminado del navegador */
+.input-field:focus-visible {
+  outline: none !important; /* Eliminar el contorno de enfoque */
+}
+
+/* Agregar un borde cuando el campo está enfocado */
+.input-field:focus {
+  box-shadow: 0 0 5px rgba(68, 227, 42, 0.5); /* Agregar sombra verde */
+}
+
+

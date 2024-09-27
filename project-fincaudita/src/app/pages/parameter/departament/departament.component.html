@@ -1,0 +1,95 @@
+<h2 class="title">Lista de Departamentos</h2>
+
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+
+<div id="cityModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ departament.id === 0 ? 'Agregar Departamento' : 'Editar Departamento' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #departamentForm="ngForm" (ngSubmit)="onSubmit(departamentForm)">
+            <input type="hidden" name="id" [(ngModel)]="departament.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Name">Nombre del Departamento:</label>
+                    <input type="text" class="form-control input-field" id="Name" name="Name" [(ngModel)]="departament.name"
+                        required>
+                </div>
+
+                <div class="col">
+                    <label for="Description">Descripción:</label>
+                    <input type="text" class="form-control input-field" id="Description" name="Description"
+                        [(ngModel)]="departament.description">
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="Country">País:</label>
+                    <input type="text" class="form-control input-field" id="Country" name="Country" [ngbTypeahead]="searchcountrys"
+                        [inputFormatter]="formatcountry" [resultFormatter]="formatcountry"
+                        (selectItem)="oncountrySelect($event)"
+                        [ngModel]="departament.countryId ? getcountryName(departament.countryId) : ''" required>
+                </div>
+
+                <div class="col">
+                    <label for="Code">Código:</label>
+                    <input type="text" class="form-control input-field" id="Code" name="Code" [(ngModel)]="departament.code"
+                        required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <label for="State">Estado:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="State" name="State"
+                        [(ngModel)]="departament.state">
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<table *ngIf="departaments.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>País</th>
+            <th>Código</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let departament of departaments">
+            <td>{{ departament.name }}</td>
+            <td>{{ departament.description }}</td>
+            <td>{{ getcountryName(departament.countryId) }}</td>
+            <td>{{ departament.code }}</td>
+            <td>{{ departament.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editdepartament(departament)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deletedepartament(departament.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p *ngIf="departaments.length === 0">No se encontraron departaments.</p>

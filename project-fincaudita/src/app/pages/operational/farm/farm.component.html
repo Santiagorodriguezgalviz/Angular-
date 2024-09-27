@@ -1,0 +1,141 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de Fincas</h2>
+
+<!-- Botón a la derecha -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nueva <i class="fas fa-plus"></i></button>
+
+<!-- Modal para agregar o editar una finca -->
+<div id="farmModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ farm.id === 0 ? 'Agregar finca' : 'Editar finca' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #farmForm="ngForm" (ngSubmit)="onSubmit(farmForm)">
+            <input type="hidden" name="id" [(ngModel)]="farm.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Name">Nombre de la finca:</label>
+                    <input type="text" class="form-control input-field" id="Name" name="Name"
+                        [(ngModel)]="farm.name" required>
+                </div>
+
+                <div class="col">
+                    <label for="Addres">Dirección:</label>
+                    <input type="text" class="form-control input-field" id="Addres" name="Addres"
+                        [(ngModel)]="farm.addres" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="CityId">Ciudad:</label>
+                    <input type="text" class="form-control input-field" id="CityId" name="CityId" 
+                        [ngbTypeahead]="searchCities"
+                        [inputFormatter]="formatCity" 
+                        [resultFormatter]="formatCity"
+                        (selectItem)="onCitySelect($event)"
+                        [ngModel]="getCityName(farm.cityId)"
+                        required>
+                </div>
+
+                <div class="col">
+                    <label for="UserId">Usuario asignado:</label>
+                    <input type="text" class="form-control input-field" id="UserId" name="UserId" 
+                        [ngbTypeahead]="searchUsers"
+                        [inputFormatter]="formatUser" 
+                        [resultFormatter]="formatUser"
+                        (selectItem)="onUserSelect($event)"
+                        [ngModel]="getUserName(farm.userId)"
+                        required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="Dimension">Dimensión:</label>
+                    <input type="number" class="form-control input-field" id="Dimension" name="Dimension"
+                        [(ngModel)]="farm.dimension" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="State">Estado:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="State" name="State" [(ngModel)]="farm.state">
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col">
+                    <label for="CropId">Cultivo:</label>
+                    <p-multiSelect id="CropId" name="CropId" [options]="crops" [(ngModel)]="selectedCropId" 
+                        optionLabel="name" placeholder="Selecciona cultivos" scrollHeight="250px" display="chip">
+                    </p-multiSelect>
+                </div>
+
+                <div class="col">
+                    <label for="Hectareas">Hectáreas:</label>
+                    <input type="number" class="form-control input-field" id="Hectareas" name="Hectareas" [(ngModel)]="hectares" required>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-success" (click)="addLot(selectedCropId, hectares)">Agregar Lote</button>
+            
+            <div *ngFor="let lot of farm.lots">
+                <p>Cultivo: {{ getCropName(lot.cropId) }} - Hectáreas: {{ lot.num_hectareas }}</p>
+            </div>
+
+            <hr>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tabla de Fincas -->
+<table *ngIf="farms.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Ciudad</th>
+            <th>Usuario</th>
+            <th>Dimensión</th>
+            <th>Lotificación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let farm of farms">
+            <td>{{ farm.name }}</td>
+            <td>{{ farm.addres }}</td>
+            <td>{{ getCityName(farm.cityId) }}</td>
+            <td>{{ getUserName(farm.userId) }}</td>
+            <td>{{ farm.dimension }}</td>
+            <td>{{ farm.lotString }}</td>
+            <td>{{ farm.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editFarm(farm)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteFarm(farm.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Mensaje para cuando no haya fincas -->
+<p *ngIf="farms.length === 0">No se encontraron fincas.</p>

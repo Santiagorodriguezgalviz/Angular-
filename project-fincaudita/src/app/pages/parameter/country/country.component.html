@@ -1,0 +1,82 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de Paises</h2>
+
+<!-- Botón a la derecha -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+
+<div id="countryModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ country.id === 0 ? 'Agregar Country' : 'Editar Country' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #countryForm="ngForm" (ngSubmit)="onSubmit(countryForm)">
+            <input type="hidden" name="id" [(ngModel)]="country.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Name">Nombre del país:</label>
+                    <input type="text" class="form-control input-field" id="Name" name="Name" [(ngModel)]="country.name" required>
+                </div>
+
+                <div class="col">
+                    <label for="Description">Descripción:</label>
+                    <input type="text" class="form-control input-field" id="Description" name="Description" [(ngModel)]="country.description">
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="Code">Código:</label>
+                    <input type="text" class="form-control input-field" id="Code" name="Code" [(ngModel)]="country.code" required>
+                </div>
+                <div class="col">
+                    <label for="State">Estado:</label>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="State" name="State" [(ngModel)]="country.state">
+                    </div>
+                  </div>
+            </div>
+            
+            <br>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Table of countries -->
+<table *ngIf="countries.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Código</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let country of countries">
+            <td>{{ country.name }}</td>
+            <td>{{ country.description }}</td>
+            <td>{{ country.code }}</td>
+            <td>{{ country.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editCountry(country)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteCountry(country.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p *ngIf="countries.length === 0">No se encontraron countries.</p>

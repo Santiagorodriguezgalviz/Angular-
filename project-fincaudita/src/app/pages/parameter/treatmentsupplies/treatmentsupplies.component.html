@@ -1,0 +1,94 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de suministro para el tratamiento</h2>
+
+<!-- Botón a la derecha -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+
+<div id="treatmentSupplyModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ TreatmentsuppliesComponent.id === 0 ? 'Agregar suministro de tratamiento' : 'Editar suministro de tratamiento' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #treatmentSupplyForm="ngForm" (ngSubmit)="onSubmit(treatmentSupplyForm)">
+            <input type="hidden" name="id" [(ngModel)]="TreatmentsuppliesComponent.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="dose">Dosis:</label>
+                    <input type="text" class="form-control input-field" id="dose" name="dose" [(ngModel)]="TreatmentsuppliesComponent.dose" required>
+                </div>
+
+                <div class="col">
+                    <label for="suppliesId">Suministro:</label>
+                    <input type="text" class="form-control input-field" id="suppliesId" name="suppliesId"
+                        [ngbTypeahead]="searchSupplies" 
+                        [inputFormatter]="formatSupply" 
+                        [resultFormatter]="formatSupply" 
+                        (selectItem)="onSuppliesSelect($event)"
+                        [ngModel]="TreatmentsuppliesComponent.suppliesId ? getSupplyName(TreatmentsuppliesComponent.suppliesId) : ''" 
+                        required>
+                </div>
+            </div>
+                
+            <div class="row">
+                <div class="col">
+                    <label for="treatmentId">Tratamiento:</label>
+                    <input type="text" class="form-control input-field" id="treatmentId" name="treatmentId"
+                        [ngbTypeahead]="searchTreatments" 
+                        [inputFormatter]="formatTreatment" 
+                        [resultFormatter]="formatTreatment" 
+                        (selectItem)="onTreatmentSelect($event)"
+                        [ngModel]="TreatmentsuppliesComponent.treatmentId ? getTreatmentName(TreatmentsuppliesComponent.treatmentId) : ''" 
+                        required>
+                </div>
+         
+            
+            <div class="col">
+                <label for="State">Estado:</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="State" name="State"
+                        [(ngModel)]="TreatmentsuppliesComponent.state">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+        </form>
+    </div>
+      </div>
+
+
+<!-- Tabla de suministros de tratamiento -->
+<table *ngIf="TreatmentsuppliesComponents.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Dosis</th>
+            <th>Suministro</th>
+            <th>Tipo de tratamiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let supply of TreatmentsuppliesComponents">
+            <td>{{ supply.dose }}</td>
+            <td>{{ getSupplyName(supply.suppliesId) }}</td>
+            <td>{{ getTreatmentName(supply.treatmentId) }}</td>
+            <td>{{ supply.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editTreatmentsupplies(supply)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteTreatmentsupplies(supply.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p *ngIf="TreatmentsuppliesComponents.length === 0">No se encontraron suministros para el tratamiento.</p>

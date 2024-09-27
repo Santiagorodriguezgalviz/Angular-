@@ -1,0 +1,100 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de Usuarios</h2>
+
+<!-- Botón a la derecha -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+
+<div id="moduloModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ user.id === 0 ? 'Agregar Usuario' : 'Editar Usuario' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #moduloForm="ngForm" (ngSubmit)="onSubmit(moduloForm)">
+            <input type="hidden" name="id" [(ngModel)]="user.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Username">Nombre del usuario:</label>
+                    <input type="text" class="form-control input-field" id="Username" name="Username" [(ngModel)]="user.username" required>
+                </div>
+
+                <div class="col">
+                    <label for="Password">Contrasena:</label>
+                    <input type="text" class="form-control input-field" id="Password" name="Password"
+                        [(ngModel)]="user.password" required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <label for="PersonId">Persona:</label>
+                    <input type="text" class="form-control input-field" id="PersonId" name="PersonId"
+                    [ngbTypeahead]="searchPersons" 
+                    [inputFormatter]="formatPerson" 
+                    [resultFormatter]="formatPerson" 
+                    (selectItem)="onPersonSelect($event)"
+                    [ngModel]="user.personId ? getPersonName(user.PersonId) : ''" 
+                    required>
+                </div>
+        
+    
+                
+                 <div class="col">
+                <label for="roles">roles asociadas:</label>
+                <p-multiSelect id="roles" name="name" [options]="roles" [(ngModel)]="user.roles" optionLabel="name"
+                    placeholder="Selecciona vistas" scrollHeight="250px" display="chip">
+                </p-multiSelect>
+            </div>
+        </div>
+                
+            <div class="col">
+                <label for="State">Estado:</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="State" name="State"
+                        [(ngModel)]="user.state">
+                </div>
+            </div>
+            <br>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        
+        </form>
+    </div>
+</div>
+
+        <!-- Table of modules -->
+        <table *ngIf="users.length > 0" class="table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Person</th>
+                    <th>Roles</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ getPersonName(user.personId) }}</td>
+                    <td>{{ user.roleString || 'Ningun' }}</td>
+                    <td>{{ user.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editUsers(user)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteUsers(user.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p *ngIf="users.length === 0">No se encontraron users.</p>

@@ -1,0 +1,91 @@
+<h2 class="title">Lista de Insumos</h2>
+
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nueva <i class="fas fa-plus"></i></button>
+
+<div id="cityModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ supplie.id === 0 ? 'Agregar Insumo' : 'Editar Insumo' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #supplieForm="ngForm" (ngSubmit)="onSubmit(supplieForm)">
+            <input type="hidden" name="id" [(ngModel)]="supplie.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Name">Nombre:</label>
+                    <input type="text" class="form-control input-field" id="Name" name="Name" [(ngModel)]="supplie.name" required>
+                </div>
+
+                <div class="col">
+                    <label for="Description">Descripción:</label>
+                    <input type="text" class="form-control input-field" id="Description" name="Description"
+                        [(ngModel)]="supplie.description">
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="Code">Precío:</label>
+                    <input type="number" class="form-control input-field" id="Price" name="Code" [(ngModel)]="supplie.price"
+                        required>
+                </div>
+
+                <div class="col">
+                    <label for="Code">Código:</label>
+                    <input type="text" class="form-control input-field" id="Code" name="Code" [(ngModel)]="supplie.code" required>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <label for="State">Estado:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="State" name="State"
+                        [(ngModel)]="supplie.state">
+                    </div>
+                </div>
+            </div>
+            <br>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<table *ngIf="supplies.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precío</th>
+            <th>Código</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let supplie of supplies">
+            <td>{{ supplie.name }}</td>
+            <td>{{ supplie.description }}</td>
+            <td>{{ supplie.price }}</td>
+            <td>{{ supplie.code }}</td>
+            <td>{{ supplie.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editsupplie(supplie)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deletesupplie(supplie.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p *ngIf="supplies.length === 0">No se encontraron supplies.</p>

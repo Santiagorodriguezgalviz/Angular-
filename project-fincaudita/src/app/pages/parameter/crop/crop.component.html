@@ -1,0 +1,83 @@
+<!-- Título con estilo -->
+<h2 class="title">Lista de Cultivos</h2>
+
+<!-- Botón a la derecha -->
+<button class="btn btn-success add-btn" (click)="openModal()">Agregar nuevo <i class="fas fa-plus"></i></button>
+
+<div id="cropModal" class="modal" [ngClass]="{'show-modal': isModalOpen}">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>{{ crop.id === 0 ? 'Agregar Cultivo' : 'Editar Cultivo' }}</h2>
+
+        <hr class="modal-border">
+
+        <form #cropForm="ngForm" (ngSubmit)="onSubmit(cropForm)">
+            <input type="hidden" name="id" [(ngModel)]="crop.id">
+
+            <div class="row">
+                <div class="col">
+                    <label for="Name">Nombre del cultivo:</label>
+                    <input type="text" class="form-control input-field" id="Name" name="Name" [(ngModel)]="crop.name" required>
+                </div>
+
+                <div class="col">
+                    <label for="Description">Descripción:</label>
+                    <input type="text" class="form-control input-field" id="Description" name="Description" [(ngModel)]="crop.description">
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col">
+                    <label for="Code">Código:</label>
+                    <input type="text" class="form-control input-field" id="Code" name="Code" [(ngModel)]="crop.code" required>
+                </div>
+                <div class="col">
+                    <label for="State">Estado:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="State" name="State"
+                        [(ngModel)]="crop.state">
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Table of crops -->
+<table *ngIf="crops.length > 0" class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Código</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let crop of crops">
+            <td>{{ crop.name }}</td>
+            <td>{{ crop.description }}</td>
+            <td>{{ crop.code }}</td>
+            <td>{{ crop.state ? 'Activo' : 'Inactivo' }}</td>
+            <td>
+                <button class="btn-icon edit" (click)="editCrop(crop)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon delete" (click)="deleteCrop(crop.id)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p *ngIf="crops.length === 0">No se encontraron crops.</p>
